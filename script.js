@@ -1,5 +1,10 @@
 let pokemon_card_container = document.querySelector("#pokemon-card-container");
+let seachbox=document.querySelector("#search");
+let filterbtn=document.querySelector("#filter");
+let select=document.querySelector("#select")
+let type=document.querySelector("#type");
 
+// ------------colors according to type--------------
 let colors = {
   normal: "A9B0B3",
   fighting: "D76F2E",
@@ -31,16 +36,22 @@ async function fetchPokemon(i) {
   return result;
 }
 
+
+//--------------- function to fetch pokemons-----------------------
 async function fetchmainpage() {
   for (let i = 1; i <= 151; i++) {
     let pokemon = await fetchPokemon(i);
     let card = createCard(pokemon);
-    console.log(pokemon);
+    // console.log(pokemon);
    
     pokemon_card_container.appendChild(card);
   }
 }
 
+
+
+
+// -----------function for creating card----------------
 function createCard(details) {
   let card = document.createElement("div");
   card.classList.add("card");
@@ -59,3 +70,33 @@ function createCard(details) {
     "#" + colors[details.types[0].type.name];
   return card;
 }
+
+// let Allcard=document.querySelectorAll(".card");
+seachbox.addEventListener("input",()=>{
+  let Allcard=document.querySelectorAll(".card");
+  let pokeArray=Array.from(Allcard);
+  console.log(pokeArray)
+  pokeArray.forEach((element)=>{
+      let pokemon=element.children[0].children[0].children[2].innerHTML;
+      if(pokemon.startsWith(seachbox.value)){
+        element.style.display="flex";
+      }else{
+        element.style.display="none";
+      }
+  })
+})
+
+
+filterbtn.addEventListener("click",()=>{
+  let Allcard=document.querySelectorAll(".card");
+  let pokeArray=Array.from(Allcard);
+  console.log(pokeArray)
+  pokeArray.forEach((element)=>{
+      let pokemon=element.children[0].children[0].children[3].innerHTML;
+      if(pokemon==type.value){
+        element.style.display="flex";
+      }else{
+        element.style.display="none";
+      }
+  })
+})
